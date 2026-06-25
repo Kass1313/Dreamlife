@@ -590,584 +590,353 @@ Lancer le film 🎬
 
 
 
-</div>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Raphy & Mehdi - Notre Histoire</title>
+</div><script>
 
 
-<style>
+/* =====================================
+   MOTEUR FILM CINEMA
+===================================== */
 
 
-*{
-box-sizing:border-box;
+const scenes = [
+
+
+{
+
+name:"La rencontre",
+
+bg:"shop",
+
+lines:[
+
+"Un jour normal...",
+
+"Puis une personne change tout.",
+
+"Raphy rencontre Mehdi."
+
+],
+
+actors:[
+
+"raphy",
+
+"mehdi"
+
+]
+
+},
+
+
+
+{
+
+name:"Les premiers souvenirs",
+
+bg:"street",
+
+lines:[
+
+"Ils commencent à discuter.",
+
+"Les journées deviennent différentes.",
+
+"Des souvenirs commencent."
+
+],
+
+actors:[
+
+"raphy",
+
+"mehdi"
+
+]
+
+},
+
+
+
+
+{
+
+name:"Le moment magique",
+
+bg:"sunset",
+
+lines:[
+
+"Le soleil descend.",
+
+"Le bruit des vagues accompagne le silence.",
+
+"Un moment qu'ils n'oublieront jamais."
+
+],
+
+actors:[
+
+"raphy",
+
+"mehdi"
+
+]
+
+},
+
+
+
+
+{
+
+name:"La famille",
+
+bg:"home",
+
+lines:[
+
+"Des rires.",
+
+"Des moments simples.",
+
+"Une histoire qui continue."
+
+],
+
+actors:[
+
+"raphy",
+
+"mehdi"
+
+]
+
 }
 
 
-body{
 
-margin:0;
-
-font-family:
-"Segoe UI",
-Arial,
-sans-serif;
-
-background:#000;
-
-overflow-x:hidden;
-
-color:white;
-
-}
-
-
-/* ======================
-   CONTENEUR PRINCIPAL
-====================== */
-
-
-#app{
-
-width:100%;
-
-min-height:100vh;
-
-position:relative;
-
-}
+];
 
 
 
-/* ======================
-   FILM CINEMA
-====================== */
+
+let currentScene = 0;
 
 
-#film{
 
-position:relative;
+/* =====================================
+   LANCEMENT
+===================================== */
 
-height:100vh;
 
-overflow:hidden;
+function startFilm(){
 
-background:#000;
+
+document.querySelector("#home").style.display="none";
+
+
+let film=document.querySelector("#film");
+
+
+film.style.display="block";
+
+
+loadScene();
+
+
 
 }
 
 
 
-/* caméra */
 
-.camera{
+
+/* =====================================
+   CREATION DECOR
+===================================== */
+
+
+function createBackground(type){
+
+
+let extra="";
+
+
+if(type==="shop"){
+
+
+extra=`
+
+<div class="layer">
+
+<div style="
 
 position:absolute;
 
-inset:0;
+top:20%;
 
-transform-origin:center;
+left:10%;
 
-animation:
-cameraMove 12s infinite alternate;
+width:80%;
 
-}
-
-
-
-@keyframes cameraMove{
-
-
-0%{
-
-transform:
-scale(1)
-translateX(0);
-
-}
-
-
-100%{
-
-transform:
-scale(1.12)
-translateX(-25px);
-
-}
-
-}
-
-
-
-
-
-/* couches décor */
-
-
-.layer{
-
-position:absolute;
-
-inset:0;
-
-}
-
-
-
-
-.sky{
-
+height:30%;
 
 background:
 
 linear-gradient(
 
-180deg,
+90deg,
 
-#6ec6ff,
+rgba(255,255,255,.4),
 
-#ffd7a3
-
-);
-
-
-}
-
-
-
-
-.ground{
-
-
-top:60%;
-
-
-background:
-
-
-linear-gradient(
-
-180deg,
-
-#6fae45,
-
-#2d6b30
+transparent
 
 );
 
+border-radius:20px;
+
+">
+
+</div>
+
+</div>
+
+
+`;
 
 }
 
 
 
+if(type==="street"){
 
 
-.sun{
+extra=`
 
+<div class="layer"
 
-background:
-
-radial-gradient(
-
-circle at 75% 25%,
-
-rgba(255,240,170,.9),
-
-transparent 30%
-
-);
-
-
-}
-
-
-
-
-/* particules */
-
-
-.particles span{
-
-
-position:absolute;
-
-
-width:6px;
-
-height:6px;
-
-
-border-radius:50%;
-
-
-background:white;
-
-
-opacity:.5;
-
-
-animation:
-
-particle 10s linear infinite;
-
-
-}
-
-
-
-
-@keyframes particle{
-
-
-0%{
-
-
-transform:
-
-translateY(100vh);
-
-opacity:0;
-
-
-}
-
-
-50%{
-
-opacity:.8;
-
-}
-
-
-100%{
-
-
-transform:
-
-translateY(-20vh);
-
-
-opacity:0;
-
-
-}
-
-
-
-}
-
-
-
-
-
-/* ======================
-   PERSONNAGES
-====================== */
-
-
-.character{
-
-
-position:absolute;
-
-
-bottom:8%;
-
-
-transition:
-
-all 2s ease;
-
-
-animation:
-
-idle 4s infinite;
-
-
-}
-
-
-
-@keyframes idle{
-
-
-0%,100%{
-
-transform:
-
-translateY(0);
-
-}
-
-
-50%{
-
-transform:
-
-translateY(-12px);
-
-}
-
-
-
-}
-
-
-
-.character img{
-
-
-width:240px;
-
-
-filter:
-
-drop-shadow(
-
-0 20px 20px
-
-rgba(0,0,0,.4)
-
-);
-
-
-}
-
-
-
-
-
-/* ======================
-   TEXTE CINEMA
-====================== */
-
-
-.dialogue{
-
-
-position:absolute;
-
-
-bottom:12%;
-
-
-left:50%;
-
-
-transform:
-
-translateX(-50%);
-
-
-
-width:70%;
-
-
-padding:22px;
-
-
-background:
-
-rgba(0,0,0,.65);
-
-
-border-radius:25px;
-
-
-font-size:24px;
-
-
-text-align:center;
-
-
-backdrop-filter:
-
-blur(10px);
-
-
-animation:
-
-appear .8s;
-
-
-}
-
-
-
-@keyframes appear{
-
-
-from{
-
-
-opacity:0;
-
-
-transform:
-
-translate(-50%,40px);
-
-
-}
-
-
-to{
-
-
-opacity:1;
-
-
-transform:
-
-translate(-50%,0);
-
-
-}
-
-
-
-}
-
-
-
-
-/* ======================
-   BOUTONS
-====================== */
-
-
-button{
-
-
-border:none;
-
-
-padding:15px 30px;
-
-
-border-radius:30px;
-
-
-background:#ff4d88;
-
-
-color:white;
-
-
-font-size:18px;
-
-
-cursor:pointer;
-
-
-}
-
-
-
-button:hover{
-
-
-transform:scale(1.05);
-
-
-}
-
-
-
-
-
-/* écran accueil */
-
-
-.screen{
-
-
-min-height:100vh;
-
-
-display:flex;
-
-
-flex-direction:column;
-
-
-align-items:center;
-
-
-justify-content:center;
-
-
-gap:25px;
-
+style="
 
 background:
 
 linear-gradient(
 
-135deg,
+90deg,
 
-#ff9a9e,
+rgba(255,255,255,.15),
 
-#fad0c4
+transparent
 
 );
 
+">
 
-}
+</div>
 
-
-
-h1{
-
-
-font-size:45px;
-
-
-text-align:center;
-
+`;
 
 }
 
 
 
 
-</style>
+
+if(type==="sunset"){
 
 
-</head>
+extra=`
+
+<div class="layer sun"></div>
 
 
-<body>
+`;
+
+}
 
 
-<div id="app">
+
+
+if(type==="home"){
+
+
+extra=`
+
+<div class="layer"
+
+style="
+
+background:
+
+linear-gradient(
+
+90deg,
+
+#c89b7b,
+
+#f5d7b2
+
+);
+
+">
+
+</div>
+
+
+`;
+
+}
 
 
 
-<div class="screen" id="home">
+
+return extra;
 
 
-<h1>
-❤️ Raphy & Mehdi ❤️
-</h1>
+}
 
 
-<p>
-Une histoire pas comme les autres
-</p>
 
 
-<button onclick="startFilm()">
 
-Lancer le film 🎬
+/* =====================================
+   AFFICHAGE SCENE
+===================================== */
 
-</button>
+
+function loadScene(){
+
+
+
+let scene=scenes[currentScene];
+
+
+
+let film=document.querySelector("#film");
+
+
+
+film.innerHTML=`
+
+
+
+<div class="camera">
+
+
+<div class="layer sky"></div>
+
+
+<div class="layer ground"></div>
+
+
+
+${createBackground(scene.bg)}
+
+
+
+<div class="particles">
+
+
+${makeParticles()}
 
 
 </div>
@@ -1175,7 +944,38 @@ Lancer le film 🎬
 
 
 
-<div id="film" style="display:none;">
+<div class="character"
+
+style="left:25%">
+
+
+<img src="raphy.svg">
+
+
+</div>
+
+
+
+<div class="character"
+
+style="left:55%">
+
+
+<img src="mehdi.svg">
+
+
+</div>
+
+
+
+
+
+<div class="dialogue">
+
+${scene.lines[0]}
+
+</div>
+
 
 
 
@@ -1183,8 +983,160 @@ Lancer le film 🎬
 
 
 
-</div>
-<script>
+
+`;
+
+
+
+
+animateDialogue(scene.lines);
+
+
+
+}
+
+
+
+
+
+/* =====================================
+   PARTICULES
+===================================== */
+
+
+function makeParticles(){
+
+
+let html="";
+
+
+for(let i=0;i<35;i++){
+
+
+html+=`
+
+<span style="
+
+left:${Math.random()*100}%;
+
+animation-delay:${Math.random()*8}s;
+
+">
+
+</span>
+
+
+`;
+
+}
+
+
+return html;
+
+
+}
+
+
+
+
+
+/* =====================================
+   DIALOGUES CINEMA
+===================================== */
+
+
+function animateDialogue(lines){
+
+
+let box=document.querySelector(".dialogue");
+
+
+let index=0;
+
+
+
+let timer=setInterval(()=>{
+
+
+index++;
+
+
+
+if(index>=lines.length){
+
+
+clearInterval(timer);
+
+
+setTimeout(()=>{
+
+
+nextScene();
+
+
+},2500);
+
+
+
+return;
+
+
+}
+
+
+
+box.innerHTML=lines[index];
+
+
+
+},3500);
+
+
+
+
+
+}
+
+
+
+
+
+/* =====================================
+   SCENE SUIVANTE
+===================================== */
+
+
+function nextScene(){
+
+
+
+currentScene++;
+
+
+
+if(currentScene>=scenes.length){
+
+
+
+currentScene=0;
+
+
+
+}
+
+
+
+loadScene();
+
+
+
+}
+
+
+
+
+
+</script><script>
 
 
 /* =====================================
